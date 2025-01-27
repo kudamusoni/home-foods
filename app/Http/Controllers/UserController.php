@@ -35,41 +35,36 @@ class UserController extends Controller
             'address.city' => 'required',
             'address.state' => 'required',
             'address.postcode' => 'required',
-            'phone_number' => 'required',
+            'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
         ]);
-
-
-        $userData = $request->input('userData');
-        // dd($data);
-
-        // $role1 = Role::create(['name' => 'writer']);
-        // $user->assignRole($role1);
 
         try {
 
-            $user = auth()->user();
+            DB::transaction(function () use ($data) {
+                $user = auth()->user();
 
-            $country = Country::isoCode($data['address']['country'])->first();
+                $country = Country::isoCode($data['address']['country'])->first();
+                $user->country_id = $country->id;
 
-            $user->country_id = $country->id;
-            $user->phone_number = $data['phone_number'];
-            $user->address = $data['address']['line1'];
-            $user->address2 = $data['address']['line2'];
-            $user->city = $data['address']['city'];
-            $user->state = $data['address']['state'];
-            $user->postal_code = $data['address']['postcode'];
+                $user->phone_number = $data['phone_number'];
+                $user->address = $data['address']['line1'];
+                $user->address2 = $data['address']['line2'];
+                $user->city = $data['address']['city'];
+                $user->state = $data['address']['state'];
+                $user->postal_code = $data['address']['postcode'];
 
-            $role = Role::where('name', 'customer')->first();
-            $user->assignRole($role);
+                $role = Role::where('name', 'customer')->first();
+                $user->assignRole($role);
 
-            $user->save();
+                $user->save();
+            });
 
             return response()->json([
                 "message" => "Success: User Registration has been completed"
             ]);
         } catch (\Throwable $e) {
             Logger($e->getMessage());
-            return response('Error: User registration not created', 500);
+            return response('Error: User registration failed', 500);
         }
     }
 }

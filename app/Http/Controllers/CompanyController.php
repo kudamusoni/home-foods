@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class CompanyController extends Controller
 {
 
     public function createCompany() {
         $countries = Country::orderBy('name')->get(['iso_code', 'name']);
-        return view('company-create', ['countries' => $countries]);
+        return view('pages.public.company-create', ['countries' => $countries]);
     }
 
     public function viewJoin() {
@@ -19,40 +21,44 @@ class CompanyController extends Controller
     }
 
     public function registerCompany(Request $request) {
-        // dd($request->all());
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'country' => 'required|exists:countries,iso_code',
-            'address' => 'required|string|max:255',
-            'address2' => 'nullable|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'postcode' => ['required', 'string', 'max:20', 'regex:/^[A-Za-z0-9\s-]*$/']
+            'address.country' => 'required|exists:countries,iso_code',
+            'address.line' => 'required|string|max:255',
+            'address.line2' => 'nullable|string|max:255',
+            'address.city' => 'required|string|max:100',
+            'address.state' => 'required|string|max:100',
+            'address.postcode' => ['required', 'string', 'max:20', 'regex:/^[A-Za-z0-9\s-]*$/']
         ]);
 
-        dd(auth());
+        try {
+            DB::transaction(function () use ($data) {
+                $company = Company::create([
+                    'name' => $data['name'],
+                    'phone_number' => $data['phone_number'],
+                    'country_id' => Country::isoCode($data['address']['country'])->first()->id,
+                    'address' => $data['address']['line'],
+                    'address2' => $data['address']['line2'],
+                    'city' => $data['address']['city'],
+                    'state' => $data['address']['state'],
+                    'postal_code' => $data['address']['postcode'],
+                ]);
 
+                $user = auth()->user();
+                $user->assignRole('company_admin');
+                $user->company_id = $company->id;
+                $user->save();
 
-        $company = new Company();
-        $company->name = $data['name'];
-        $company->phone_number = $data['phone_number'];
+                return $company;
+            });
 
-        $country = Country::isoCode($data['country'])->first();
-        $company->country_id = $country->id;
-
-        $company->address = $data['address'];
-        $company->address2 = $data['address2'];
-        $company->city = $data['city'];
-        $company->state = $data['state'];
-        $company->postal_code = $data['postcode'];
-
-        $company->save();
-
-        dd(auth()->user);
-
-        return response()->json([
-            "message" => "Success: Company has been created"
-        ]);
+            return response()->json([
+                "message" => "Success: Company has been created"
+            ]);
+        } catch (\Throwable $e) {
+            Logger($e->getMessage());
+            return response('Error: Company registration has failed', 500);
+        }
     }
 }

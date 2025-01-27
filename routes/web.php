@@ -31,7 +31,7 @@ Route::middleware(['auth', 'verified', 'no-role'])->group(function () {
     Route::get('/choose/company', fn() => view('pages.public.company-choose'))->name('choose');
     Route::get('/choose/company/create', [CompanyController::class, 'createCompany'])->name('company.create');
     Route::get('/choose/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
-    Route::post('/choose/user/register', [CompanyController::class, 'completeRegistration']);
+    Route::post('/choose/company/create', [CompanyController::class, 'registerCompany']);
 
 });
 

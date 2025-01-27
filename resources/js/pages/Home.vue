@@ -1,24 +1,23 @@
 <template>
-    <div class="h-full pb-8 px-4 overflow-y-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-max">
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-            <Card :image-url="url" :title="title" :description="description"/>
-        </div>
+    <h3 class="text-lg font-bold text-gray-900 px-4 pb-2 pt-4">Camping Food</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-max">
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
+        <Card :image-url="url" :title="title" :description="description"/>
     </div>
 </template>
 
