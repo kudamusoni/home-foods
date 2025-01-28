@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -11,16 +12,21 @@ Route::get('/', function () {
 
 // User is assigned and logged in
 Route::middleware(['user-access'])->group(function () {
+
     // Accessible by all assigned users
-    Route::middleware(['role:customer|company_user|company_admin'])->group(function () {
+    // Route::middleware(['role:customer|company_user|company_admin'])->group(function () {
         Route::get('/home', fn() => view('pages.public.home'))->name('home');
-    });
+    // });
 
    // Company routes
     Route::middleware(['role:company_user|company_admin'])->group(function () {
         Route::get('/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
+        Route::get('/products', [ProductController::class, 'index'])->name('products');
+        Route::get('/product/create', [ProductController::class, 'viewCreate'])->name('view-create');
+        Route::get('/product/{id}', [ProductController::class, 'show']);
     });
 });
+
 
 Route::middleware(['auth', 'verified', 'no-role'])->group(function () {
     Route::get('/choose', fn() => view('pages.public.choose'))->name('choose');

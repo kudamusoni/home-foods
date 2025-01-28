@@ -26,6 +26,7 @@
             </div>
         </header>
     @endisset --}}
+
     <header class="flex items-center justify-between border-b border-gray-200 px-10 py-3">
         <div class="flex items-center gap-4">
             <div class="w-4 h-4">
@@ -34,20 +35,42 @@
                     <!-- SVG content removed -->
                 </svg>
             </div>
-            <h2 class="text-lg font-bold text-gray-900">Camping Land</h2>
+            <a href="{{ route('home') }}">
+                <h2 class="text-lg font-bold text-gray-900">Camping Land</h2>
+            </a>
         </div>
-        <div class="flex gap-2">
-            <button class="min-w-[84px] h-10 px-4 bg-gray-100 text-gray-900 rounded-xl text-sm font-bold">
-                <span class="truncate">Sign in</span>
-            </button>
-            <button
-                class="h-10 bg-gray-100 text-gray-900 rounded-xl text-sm font-bold flex items-center justify-center gap-2 px-2.5">
-                <!-- SVG Placeholder -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
-                    viewBox="0 0 256 256">
-                    <!-- SVG content removed -->
-                </svg>
-            </button>
+        <div class="flex flex-1 justify-end gap-8">
+            @hasanyrole('company_user|company_admin')
+                <!-- Navigation links -->
+                <nav class="flex items-center gap-9">
+                    <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
+                    <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
+                    <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
+                    <a class="text-sm font-medium text-stone-900" href="#">Customers</a>
+                </nav>
+
+                <!-- Buttons -->
+                <div class="flex gap-2">
+                    <a href="{{ route('view-create') }}">
+                        <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
+                            <span class="truncate">Create</span>
+                        </button>
+                    </a>
+
+                    <button class="h-10 rounded-xl bg-stone-100 px-2.5 text-sm font-bold">
+                        <!-- Bell icon can go here -->
+                    </button>
+                </div>
+
+                <!-- Avatar -->
+                <div class="h-10 w-10 rounded-full bg-cover bg-center"></div>
+            @else
+                <div class="flex gap-2">
+                    <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
+                        <span class="truncate">Sign In</span>
+                    </button>
+                </div>
+            @endhasanyrole
         </div>
     </header>
 
