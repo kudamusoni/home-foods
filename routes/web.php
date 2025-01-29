@@ -21,8 +21,12 @@ Route::middleware(['user-access'])->group(function () {
    // Company routes
     Route::middleware(['role:company_user|company_admin'])->group(function () {
         Route::get('/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
+
         Route::get('/products', [ProductController::class, 'index'])->name('products');
+
         Route::get('/product/create', [ProductController::class, 'viewCreate'])->name('view-create');
+        Route::post('/product/create', [ProductController::class, 'create']);
+
         Route::get('/product/{id}', [ProductController::class, 'show']);
     });
 });

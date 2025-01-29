@@ -11,6 +11,7 @@ import CompanyCreate from './pages/CompanyCreate.vue'
 import Dashboard from './pages/admin/Dashboard.vue'
 import Products from './pages/admin/Products.vue'
 import Product from './pages/Product.vue'
+import ProductCreate from './pages/admin/ProductCreate.vue'
 
 const app = createApp({});
 
@@ -23,5 +24,6 @@ app
     .component('dashboard', Dashboard)
     .component('products', Products)
     .component('product', Product)
+    .component('product-create', ProductCreate)
 
 app.mount('#app')

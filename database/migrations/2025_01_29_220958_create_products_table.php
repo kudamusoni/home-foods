@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained('companies');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable();
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
-            $table->string('phone_number')->nullable();
+            $table->integer('price')->default(0);
+            $table->integer('sale_price')->default(0)->nullable();
+            $table->integer('cost_per_item')->default(0);
+            $table->integer('quantity');
             $table->string('sku')->unique();
             $table->string('barcode')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->foreignId('category_id')->nullable()->constrained('categories');
 
             $table->timestamps();
             $table->softDeletes();
