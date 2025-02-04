@@ -2,13 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Country;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function index()  {
+        $user = auth()->user();
+        return view('pages.admin.users', [
+            'users' => $user->company->users
+        ]);
+    }
+
+    public function viewEdit(User $user)  {
+        $countries = Country::orderBy('name')->get(['iso_code', 'name']);
+
+        return view('pages.admin.user-edit', [
+            'user' => (new UserResource($user->load('country')))->resolve(),
+            'countries' => $countries
+        ]);
+    }
+
+    public  static function edit(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user)],
+            'country' => ['required', Rule::exists('countries', column: 'iso_code')],
+        ]);
+
+        try {
+            DB::transaction(function () use ($user, $data) {
+                $country = Country::isoCode($data['country'])->first();
+                $user->country_id = $country->id;
+                $user->name = $data['name'];
+                $user->email = $data['email'];
+                $user->save();
+
+                return $user;
+            });
+        } catch (\Throwable $e) {
+            Logger($e->getMessage());
+            return response('Error: User update failed', 500);
+        }
+    }
+
     public function chooseUser() {
         $user = auth()->user();
 
@@ -66,5 +109,13 @@ class UserController extends Controller
             Logger($e->getMessage());
             return response('Error: User registration failed', 500);
         }
+    }
+
+    public function viewInvite()
+    {
+        $company = auth()->user()->company;
+
+        $response = $inviteCodeService->generateForUser($user);
+        $code = $response->code;
     }
 }

@@ -4,7 +4,7 @@
             <p class="text-gray-900 tracking-light text-[32px] font-bold leading-tight min-w-72">Products</p>
         </div>
         <div class="flex flex-wrap pb-4">
-            <a href="/product/create">
+            <a href="/admin/product/create">
                 <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
                     <span class="truncate">Create a product</span>
                 </button>
@@ -72,26 +72,16 @@
 
                 <!-- Table Body -->
                 <tbody class="divide-y divide-gray-500">
-                    <tr class="hover:bg-gray-100">
+                    <tr class="hover:bg-gray-200" v-for="product in products" :key="product.id"
+                        @click="goToProduct(product.id)">
                         <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-gray-900">Product Name</div>
-                            <div class="text-sm text-gray-500">Category</div>
+                            <div class="text-sm font-medium text-gray-900">{{ product.name }}</div>
+                            <div class="text-sm text-gray-500">{{ product.category }}</div>
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-900">SKU-123</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">125</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">$99.99</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">{{ product.quantity }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${{ product.price }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900">254</td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-gray-900">Another Product</div>
-                            <div class="text-sm text-gray-500">Category</div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-900">SKU-456</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">89</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">$149.99</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">187</td>
                     </tr>
                 </tbody>
             </table>
@@ -101,7 +91,17 @@
 
 <script>
 export default {
-
+    props: ['products'],
+    computed: {
+    },
+    methods: {
+        goToProduct(id) {
+            return window.location.href = `/admin/user/edit/${id}`;
+        }
+    },
+    mounted() {
+        // console.log(this.products)
+    },
 }
 </script>
 

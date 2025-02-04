@@ -36,7 +36,7 @@
                 </svg>
             </div>
             <a href="{{ route('home') }}">
-                <h2 class="text-lg font-bold text-gray-900">Camping Land</h2>
+                <h2 class="text-lg font-bold text-gray-900">Home Foods</h2>
             </a>
         </div>
         <div class="flex flex-1 justify-end gap-8">
@@ -46,12 +46,12 @@
                     <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
                     <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
                     <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
-                    <a class="text-sm font-medium text-stone-900" href="#">Customers</a>
+                    <a class="text-sm font-medium text-stone-900" href="{{ route('users') }}">Users</a>
                 </nav>
 
                 <!-- Buttons -->
                 <div class="flex gap-2">
-                    <a href="{{ route('view-create') }}">
+                    <a href="{{ route('product-create') }}">
                         <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
                             <span class="truncate">Create</span>
                         </button>
@@ -65,11 +65,11 @@
                 <!-- Avatar -->
                 <div class="h-10 w-10 rounded-full bg-cover bg-center"></div>
             @else
-                <div class="flex gap-2">
+                {{-- <div class="flex gap-2">
                     <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
                         <span class="truncate">Sign In</span>
                     </button>
-                </div>
+                </div> --}}
             @endhasanyrole
         </div>
     </header>

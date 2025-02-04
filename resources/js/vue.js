@@ -12,6 +12,9 @@ import Dashboard from './pages/admin/Dashboard.vue'
 import Products from './pages/admin/Products.vue'
 import Product from './pages/Product.vue'
 import ProductCreate from './pages/admin/ProductCreate.vue'
+import ProductEdit from './pages/admin/ProductEdit.vue'
+import Users from './pages/admin/Users.vue'
+import UserEdit from './pages/admin/UserEdit.vue'
 
 const app = createApp({});
 
@@ -25,5 +28,8 @@ app
     .component('products', Products)
     .component('product', Product)
     .component('product-create', ProductCreate)
+    .component('product-edit', ProductEdit)
+    .component('users', Users)
+    .component('user-edit', UserEdit)
 
 app.mount('#app')

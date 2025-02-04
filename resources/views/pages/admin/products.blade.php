@@ -1,3 +1,3 @@
 <x-vue-layout>
-    <products />
+    <products :products="{{ json_encode($products) }}"/>
 </x-vue-layout>

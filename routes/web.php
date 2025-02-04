@@ -14,20 +14,26 @@ Route::get('/', function () {
 Route::middleware(['user-access'])->group(function () {
 
     // Accessible by all assigned users
-    // Route::middleware(['role:customer|company_user|company_admin'])->group(function () {
-        Route::get('/home', fn() => view('pages.public.home'))->name('home');
-    // });
+    Route::get('/home', [ProductController::class, 'home'])->name('home');
+    Route::get('/product/{product}', [ProductController::class, 'show']);
 
    // Company routes
     Route::middleware(['role:company_user|company_admin'])->group(function () {
-        Route::get('/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
+        Route::get('/admin/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
 
-        Route::get('/products', [ProductController::class, 'index'])->name('products');
+        Route::get('/admin/products', [ProductController::class, 'index'])->name('products');
 
-        Route::get('/product/create', [ProductController::class, 'viewCreate'])->name('view-create');
-        Route::post('/product/create', [ProductController::class, 'create']);
+        Route::get('/admin/product/create', [ProductController::class, 'viewCreate'])->name('product-create');
+        Route::post('/admin/product/create', [ProductController::class, 'create']);
 
-        Route::get('/product/{id}', [ProductController::class, 'show']);
+        Route::get('/admin/product/edit/{product}', [ProductController::class, 'viewEdit'])->name('product-edit');
+        Route::put('/admin/product/edit/{product}', [ProductController::class, 'edit']);
+
+        Route::get('/admin/users', [UserController::class, 'index'])->name('users');
+        Route::get('/admin/users/invite', [UserController::class, 'viewInvite'])->name('users');
+
+        Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('user-edit');
+        Route::put('/admin/user/edit/{user}', [UserController::class, 'edit']);
     });
 });
 

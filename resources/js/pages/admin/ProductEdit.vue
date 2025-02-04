@@ -3,12 +3,12 @@
 
         <!-- Header -->
         <div class="mb-6">
-            <h1 class="text-gray-900 text-[32px] font-bold leading-tight">Create Product</h1>
-            <p class="text-gray-500 text-sm">Add a new product to your inventory</p>
+            <h1 class="text-gray-900 text-[32px] font-bold leading-tight">Edit Product</h1>
+            <p class="text-gray-500 text-sm">Edit a product to your inventory</p>
         </div>
 
         <!-- Form -->
-        <form @submit.prevent="createProduct">
+        <form @submit.prevent="editProduct">
             <!-- Basic Info Card -->
             <div class="mb-8 rounded-xl border border-gray-500 p-6">
                 <h2 class="mb-4 text-lg font-bold text-gray-900">Basic Information</h2>
@@ -94,7 +94,7 @@
                 </button>
                 <button type="submit"
                     class="rounded-xl px-6 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600">
-                    Create Product
+                    Update Product
                 </button>
             </div>
         </form>
@@ -103,18 +103,9 @@
 
 <script>
 export default {
-    props: ['categories'],
+    props: ['categories', 'product'],
     data() {
         return {
-            product: {
-                name: null,
-                description: null,
-                price: null,
-                sale_price: null,
-                cost_per_item: null,
-                quantity: null,
-                category: null,
-            },
             errorMsg: null
         }
     },
@@ -126,13 +117,16 @@ export default {
             const priceInCents = Math.round(parseFloat(price) * 100);
             return priceInCents;
         },
-        createProduct() {
+        editProduct() {
             this.errorMsg = null;
 
             if (!this.validatePrice(this.product.price) || !this.validatePrice(this.product.sale_price) || !this.validatePrice(this.product.cost_per_item)) {
                 this.setErrorMessage('Please enter a valid price (e.g., 12.99)');
                 return;
             }
+
+            console.log(this.product);
+
 
             const body = {
                 name: this.product.name,
@@ -144,7 +138,7 @@ export default {
                 quantity: this.product.quantity
             };
 
-            axios.post('/product/create', body)
+            axios.put(`/product/edit/${this.product.id}`, body)
                 .then(response => {
                     console.log(response.data);
                     window.location.href = "/admin/products";
@@ -155,13 +149,12 @@ export default {
                 });
         },
         setErrorMessage(msg) {
-            this.passwordFailure = true;
             this.errorMsg = msg;
             return true;
         },
     },
     mounted() {
-        console.log(this.categories)
+        console.log(this.categories, this.product)
     },
 }
 </script>

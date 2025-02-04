@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('sale_price')->default(0)->nullable();
             $table->integer('cost_per_item')->default(0);
             $table->integer('quantity');
-            $table->string('sku')->unique();
+            $table->string('sku')->unique()->nullable();
             $table->string('barcode')->nullable();
             $table->boolean('is_active')->default(true);
             $table->foreignId('category_id')->nullable()->constrained('categories');

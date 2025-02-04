@@ -38,13 +38,12 @@
             <!-- Product Details -->
             <div class="space-y-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Organic Mixed Berries</h1>
-                    <p class="mt-2 text-gray-600">Fresh, locally sourced mixed berries. Perfect for smoothies,
-                        baking, or enjoying as is.</p>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ product.name }}</h1>
+                    <p class="mt-2 text-gray-600">{{ product.description }}</p>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="text-2xl font-bold text-gray-900">$12.99</span>
+                    <span class="text-2xl font-bold text-gray-900">{{ product.price }}</span>
                     <span class="text-sm text-green-600 bg-green-50 px-2 py-1 rounded">In Stock</span>
                 </div>
 
@@ -69,7 +68,7 @@
                             <span class="px-4 py-2 text-gray-900">1</span>
                             <button class="p-2 hover:bg-gray-100">[+]</button>
                         </div>
-                        <span class="text-gray-600">Total: $12.99</span>
+                        <span class="text-gray-600">Total: {{ product.price }}</span>
                     </div>
                 </div>
 
@@ -145,3 +144,12 @@
 
 
 </template>
+
+<script>
+export default {
+    props: ['product'],
+    mounted() {
+        console.log(this.product);
+    }
+}
+</script>
