@@ -2,15 +2,14 @@
 namespace App\Services;
 
 use App\Models\InviteCode;
+use App\Models\InviteCodeUsage;
 use Carbon\Carbon;
 
 class InviteCodeService
 {
-    public function generateForUser($user)
+    public function generateForCompany($company)
     {
-        // Check for existing valid code
-        $existingCode = InviteCode::where('user_id', $user->id)
-            ->where('used', false)
+        $existingCode = InviteCode::where('company_id', $company->id)
             ->where('expires_at', '>', now())
             ->first();
 
@@ -18,9 +17,8 @@ class InviteCodeService
             return $existingCode;
         }
 
-        // Create new code
         return InviteCode::create([
-            'user_id' => $user->id,
+            'company_id' => $company->id,
             'code' => InviteCode::generateCode(),
             'expires_at' => now()->addHours(3),
         ]);
@@ -28,24 +26,38 @@ class InviteCodeService
 
     public function validateCode($code)
     {
-        $inviteCode = InviteCode::where('code', $code)
-            ->where('used', false)
+        return InviteCode::where('code', $code)
             ->where('expires_at', '>', now())
             ->first();
-
-        if (!$inviteCode) {
-            return null;
-        }
-
-        return $inviteCode;
     }
 
-    public function markAsUsed(InviteCode $inviteCode)
+    public function trackUserJoin(InviteCode $inviteCode, $userId)
     {
-        $inviteCode->update([
-            'used' => true
+        return InviteCodeUsage::create([
+            'invite_code_id' => $inviteCode->id,
+            'user_id' => $userId,
+            'used_at' => now(),
         ]);
+    }
 
-        return $inviteCode;
+    public function getCodeData(InviteCode $inviteCode)
+    {
+        return [
+            'code' => $inviteCode->code,
+            'company' => $inviteCode->company->name,
+            'total_joins' => $inviteCode->usages()->count(),
+            'created_at' => $inviteCode->created_at,
+            'expires_at' => $inviteCode->expires_at,
+            'is_active' => $inviteCode->isValid(),
+            'users' => $inviteCode->usages()
+                ->with('user')
+                ->orderBy('used_at', 'desc')
+                ->get()
+                ->map(fn($usage) => [
+                    'name' => $usage->user->name,
+                    'email' => $usage->user->email,
+                    'used_at' => $usage->used_at->format('Y-m-d H:i:s')
+                ])
+        ];
     }
 }

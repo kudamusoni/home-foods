@@ -4,7 +4,7 @@
             <p class="text-gray-900 tracking-light text-[32px] font-bold leading-tight min-w-72">Users</p>
         </div>
         <div class="flex flex-wrap pb-4">
-            <a href="/admin/user/create">
+            <a href="/admin/users/invite">
                 <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
                     <span class="truncate">Invite users</span>
                 </button>

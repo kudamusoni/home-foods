@@ -110,12 +110,4 @@ class UserController extends Controller
             return response('Error: User registration failed', 500);
         }
     }
-
-    public function viewInvite()
-    {
-        $company = auth()->user()->company;
-
-        $response = $inviteCodeService->generateForUser($user);
-        $code = $response->code;
-    }
 }

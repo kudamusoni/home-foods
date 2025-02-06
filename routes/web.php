@@ -30,7 +30,7 @@ Route::middleware(['user-access'])->group(function () {
         Route::put('/admin/product/edit/{product}', [ProductController::class, 'edit']);
 
         Route::get('/admin/users', [UserController::class, 'index'])->name('users');
-        Route::get('/admin/users/invite', [UserController::class, 'viewInvite'])->name('users');
+        Route::get('/admin/users/invite', [CompanyController::class, 'viewInvite'])->name('view-invite');
 
         Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('user-edit');
         Route::put('/admin/user/edit/{user}', [UserController::class, 'edit']);
@@ -46,7 +46,8 @@ Route::middleware(['auth', 'verified', 'no-role'])->group(function () {
 
     Route::get('/choose/company', fn() => view('pages.public.company-choose'))->name('choose');
     Route::get('/choose/company/create', [CompanyController::class, 'createCompany'])->name('company.create');
-    Route::get('/choose/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
+    Route::get('/choose/company/join', [CompanyController::class, 'viewCompanyJoin'])->name('company.join');
+    Route::post('/choose/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
     Route::post('/choose/company/create', [CompanyController::class, 'registerCompany']);
 
 });

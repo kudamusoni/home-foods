@@ -7,21 +7,29 @@ use Illuminate\Support\Str;
 
 class InviteCode extends Model
 {
-    protected $fillable = ['user_id', 'code', 'used', 'expires_at'];
+    protected $fillable = [
+        'company_id',
+        'code',
+        'expires_at'
+    ];
 
     protected $casts = [
-        'used' => 'boolean',
         'expires_at' => 'datetime',
     ];
 
-    public function user()
+    public function company()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function usages()
+    {
+        return $this->hasMany(InviteCodeUsage::class);
     }
 
     public function isValid()
     {
-        return !$this->used && $this->expires_at->isFuture();
+        return $this->expires_at->isFuture();
     }
 
     public static function generateCode()

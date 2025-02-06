@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('invite_codes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('code')->unique();
-            $table->boolean('used')->default(false);
             $table->timestamp('expires_at');
+            $table->timestamps();
+        });
+
+        // invite_code_usages table for tracking usage
+        Schema::create('invite_code_usages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('invite_code_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamp('used_at');
             $table->timestamps();
         });
     }
@@ -27,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('invite_codes');
+        Schema::dropIfExists('invite_code_usages');
     }
 };
