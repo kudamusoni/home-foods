@@ -17,6 +17,13 @@ Route::middleware(['user-access'])->group(function () {
     Route::get('/home', [ProductController::class, 'home'])->name('home');
     Route::get('/product/{product}', [ProductController::class, 'show']);
 
+    // Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('user-edit');
+    // Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // });
+
    // Company routes
     Route::middleware(['role:company_user|company_admin'])->group(function () {
         Route::get('/admin/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
@@ -52,10 +59,5 @@ Route::middleware(['auth', 'verified', 'no-role'])->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/auth.php';

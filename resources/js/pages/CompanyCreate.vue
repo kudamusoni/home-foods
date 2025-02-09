@@ -1,106 +1,152 @@
 <template>
-    <form @submit.prevent="createCompany">
-        <div class="flex flex-col justify-evenly gap-4 w-full">
-            <h1 class="font-bold text-2xl self-center mb-8">Create a Company</h1>
-
-            <div class="flex flex-col">
-                <label for="firstName">Company Name:</label>
-                <input v-model="company.name" type="text" name="name" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Company Name">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">Country:</label>
-                <select required v-model="company.address.country" type="text" name="country" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Country">
-                    <option value="" selected disabled>Select country</option>
-                    <option v-for="country in countries" :key="country.iso_code" :value="country.iso_code">{{ country.name }}</option>
-                </select>
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">Phone Number:</label>
-                <input required v-model="company.phone_number" type="text" name="phone_number" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Phone Number">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">Address:</label>
-                <input required v-model="company.address.line" type="text" name="address_line" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Address">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">Address 2:</label>
-                <input v-model="company.address.line2" type="text" name="address_line2" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Apartment, suite, etc. (Optional)">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">City:</label>
-                <input v-model="company.address.city" type="text" name="city" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="City">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">County/State:</label>
-                <input v-model="company.address.state" type="text" name="state" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="State">
-            </div>
-
-            <div class="flex flex-col">
-                <label for="firstName">Postcode/Zip code:</label>
-                <input v-model="company.address.postcode" type="text" name="postcode" class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full" placeholder="Postcode">
-            </div>
-
-            <div v-if="errorMsg" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong class="font-bold">{{ errorMsg }}</strong>
-            </div>
-
-            <button
-                class="bg-gradient-to-r from-indigo-500 to-orange-500 py-2 px-6 border rounded-2xl w-full text-white font-bold" type="submit">Register</button>
+    <div class="layout-content-container flex flex-col flex-1">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-gray-900 text-[32px] font-bold leading-tight">Create Company</h1>
+            <p class="text-gray-500 text-sm">Register your company to start selling</p>
         </div>
-    </form>
+
+        <!-- Form -->
+        <form @submit.prevent="createCompany">
+            <!-- Company Info Card -->
+            <div class="mb-8 rounded-xl border border-gray-500 p-6">
+                <h2 class="mb-4 text-lg font-bold text-gray-900">Company Information</h2>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Company Name</label>
+                        <input type="text" v-model="company.name" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter company name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Country</label>
+                        <select v-model="company.address.country" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500">
+                            <option value="" selected disabled>Select country</option>
+                            <option v-for="country in countries" :key="country.iso_code" :value="country.iso_code">
+                                {{ country.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Phone Number</label>
+                        <input type="text" v-model="company.phone_number" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter phone number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Card -->
+            <div class="mb-8 rounded-xl border border-gray-500 p-6">
+                <h2 class="mb-4 text-lg font-bold text-gray-900">Company Address</h2>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Address Line 1</label>
+                        <input type="text" v-model="company.address.line" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter street address">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Address Line 2 (Optional)</label>
+                        <input type="text" v-model="company.address.line2"
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Apartment, suite, etc. (Optional)">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">City</label>
+                        <input type="text" v-model="company.address.city" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter city">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">County/State</label>
+                        <input type="text" v-model="company.address.state" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter state">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Postcode/Zip code</label>
+                        <input type="text" v-model="company.address.postcode" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter postcode">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="errorMsg" class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4">
+                <p class="text-sm text-red-600">{{ errorMsg }}</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end gap-4">
+                <button type="button"
+                    class="rounded-xl px-6 py-2 text-sm font-medium text-gray-900 border border-gray-500 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="rounded-xl px-6 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600">
+                    Create Company
+                </button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
 export default {
-        props: ['countries'],
-        data() {
-            return {
-                company: {
-                    name: null,
-                    address: {
-                        country: null,
-                        line: null,
-                        line2: null,
-                        city: null,
-                        state: null,
-                        postcode: null,
-                    },
-                    phone_number: null,
+    props: ['countries'],
+    data() {
+        return {
+            company: {
+                name: null,
+                address: {
+                    country: null,
+                    line: null,
+                    line2: null,
+                    city: null,
+                    state: null,
+                    postcode: null,
                 },
-                errorMsg: null
-            }
-        },
-        computed: {
-        },
-        methods: {
-            createCompany() {
-                this.errorMsg = null;
-                console.log(this.company);
+                phone_number: null,
+            },
+            errorMsg: null
+        }
+    },
+    computed: {
+    },
+    methods: {
+        createCompany() {
+            this.errorMsg = null;
+            console.log(this.company);
 
-                axios.post('/choose/company/create', this.company)
-                    .then(response => {
-                        console.log(response.data);
-                        window.location.href = "/home";
-                    })
-                    .catch(error => {
-                        console.log(error.response.data.message);
-                        this.setErrorMessage(error.response.data.message);
-                    });
-            },
-            setErrorMessage(msg) {
-                this.passwordFailure = true;
-                this.errorMsg = msg;
-                return true;
-            },
+            axios.post('/choose/company/create', this.company)
+                .then(response => {
+                    console.log(response.data);
+                    window.location.href = "/home";
+                })
+                .catch(error => {
+                    console.log(error.response.data.message);
+                    this.setErrorMessage(error.response.data.message);
+                });
         },
-        mounted() {
-            console.log(this.countries)
+        setErrorMessage(msg) {
+            this.passwordFailure = true;
+            this.errorMsg = msg;
+            return true;
         },
-    }
+    },
+    mounted() {
+        console.log(this.countries)
+    },
+}
 </script>

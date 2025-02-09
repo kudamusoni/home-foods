@@ -27,52 +27,49 @@
         </header>
     @endisset --}}
 
-    <header class="flex items-center justify-between border-b border-gray-200 px-10 py-3">
-        <div class="flex items-center gap-4">
-            <div class="w-4 h-4">
-                <!-- SVG Placeholder -->
-                <svg viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <!-- SVG content removed -->
-                </svg>
+<header class="flex items-center justify-between border-b border-gray-200 px-10 py-3">
+    <div class="flex items-center gap-4">
+        <div class="w-4 h-4">
+            <svg viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <!-- SVG content removed -->
+            </svg>
+        </div>
+        <a href="{{ route('home') }}">
+            <h2 class="text-lg font-bold text-gray-900">Home Foods</h2>
+        </a>
+    </div>
+    <div class="flex flex-1 justify-end gap-8">
+        @hasanyrole('company_user|company_admin')
+            <!-- Navigation links -->
+            <nav class="flex items-center gap-9">
+                <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
+                <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('users') }}">Users</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('profile.edit') }}">My Profile</a>
+            </nav>
+
+            <!-- Buttons -->
+            <div class="flex gap-2">
+                <a href="{{ route('product-create') }}">
+                    <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold text-white">
+                        <span class="truncate">Create</span>
+                    </button>
+                </a>
+
+                <button class="h-10 rounded-xl bg-stone-100 px-2.5 text-sm font-bold">
+                    <!-- Bell icon can go here -->
+                </button>
             </div>
-            <a href="{{ route('home') }}">
-                <h2 class="text-lg font-bold text-gray-900">Home Foods</h2>
-            </a>
-        </div>
-        <div class="flex flex-1 justify-end gap-8">
-            @hasanyrole('company_user|company_admin')
-                <!-- Navigation links -->
-                <nav class="flex items-center gap-9">
-                    <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
-                    <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
-                    <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
-                    <a class="text-sm font-medium text-stone-900" href="{{ route('users') }}">Users</a>
-                </nav>
-
-                <!-- Buttons -->
-                <div class="flex gap-2">
-                    <a href="{{ route('product-create') }}">
-                        <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
-                            <span class="truncate">Create</span>
-                        </button>
-                    </a>
-
-                    <button class="h-10 rounded-xl bg-stone-100 px-2.5 text-sm font-bold">
-                        <!-- Bell icon can go here -->
-                    </button>
-                </div>
-
-                <!-- Avatar -->
-                <div class="h-10 w-10 rounded-full bg-cover bg-center"></div>
-            @else
-                {{-- <div class="flex gap-2">
-                    <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold">
-                        <span class="truncate">Sign In</span>
-                    </button>
-                </div> --}}
-            @endhasanyrole
-        </div>
-    </header>
+        @else
+            <div class="flex gap-2">
+                <a href="{{ route('login') }}" class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold text-white flex items-center">
+                    <span class="truncate">Sign In</span>
+                </a>
+            </div>
+        @endhasanyrole
+    </div>
+</header>
 
     {{-- <div class="min-h-screen">
         <main id="app" class="container mx-auto p-4 h-screen"> --}}

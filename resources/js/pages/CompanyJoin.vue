@@ -1,25 +1,46 @@
 <template>
-    <form @submit.prevent="joinCompany">
-        <div class="flex flex-col justify-evenly gap-4 w-full">
-            <h1 class="font-bold text-2xl self-center mb-8">Join a Company</h1>
-
-            <div class="flex flex-col">
-                <label for="firstName">Enter Company Join Code:</label>
-                <input v-model="code" type="text" name="code"
-                    class="rounded-md border-0 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 w-full"
-                    placeholder="Company Name">
-            </div>
-
-            <div v-if="errorMsg" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                role="alert">
-                <strong class="font-bold">{{ errorMsg }}</strong>
-            </div>
-
-            <button
-                class="bg-gradient-to-r from-indigo-500 to-orange-500 py-2 px-6 border rounded-2xl w-full text-white font-bold"
-                type="submit">Register</button>
+    <div class="layout-content-container flex flex-col flex-1">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-gray-900 text-[32px] font-bold leading-tight">Join Company</h1>
+            <p class="text-gray-500 text-sm">Enter your company code to join an existing company</p>
         </div>
-    </form>
+
+        <!-- Form -->
+        <form @submit.prevent="joinCompany">
+            <!-- Company Code Card -->
+            <div class="mb-8 rounded-xl border border-gray-500 p-6">
+                <h2 class="mb-4 text-lg font-bold text-gray-900">Company Code</h2>
+
+                <div class="grid gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-2">Enter Company Join Code</label>
+                        <input type="text" v-model="code" required
+                            class="w-full rounded-xl border border-gray-500 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-orange-500"
+                            placeholder="Enter your company code">
+                        <p class="mt-2 text-sm text-gray-500">Enter the code provided by your company administrator</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="errorMsg" class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4">
+                <p class="text-sm text-red-600">{{ errorMsg }}</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end gap-4">
+                <button type="button"
+                    class="rounded-xl px-6 py-2 text-sm font-medium text-gray-900 border border-gray-500 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="rounded-xl px-6 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600">
+                    Join Company
+                </button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
