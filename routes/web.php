@@ -15,7 +15,7 @@ Route::middleware(['user-access'])->group(function () {
 
     // Accessible by all assigned users
     Route::get('/home', [ProductController::class, 'home'])->name('home');
-    Route::get('/product/{product}', [ProductController::class, 'show']);
+    Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 
     // Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('user-edit');
     // Route::middleware('auth')->group(function () {
@@ -28,18 +28,17 @@ Route::middleware(['user-access'])->group(function () {
     Route::middleware(['role:company_user|company_admin'])->group(function () {
         Route::get('/admin/dashboard', fn() => view('pages.admin.dashboard'))->name('dashboard');
 
-        Route::get('/admin/products', [ProductController::class, 'index'])->name('products');
-
-        Route::get('/admin/product/create', [ProductController::class, 'viewCreate'])->name('product-create');
+        Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+        Route::get('/admin/product/create', [ProductController::class, 'viewCreate'])->name('admin.product-create');
         Route::post('/admin/product/create', [ProductController::class, 'create']);
 
-        Route::get('/admin/product/edit/{product}', [ProductController::class, 'viewEdit'])->name('product-edit');
+        Route::get('/admin/product/edit/{product}', [ProductController::class, 'viewEdit'])->name('admin.product-edit');
         Route::put('/admin/product/edit/{product}', [ProductController::class, 'edit']);
 
-        Route::get('/admin/users', [UserController::class, 'index'])->name('users');
-        Route::get('/admin/users/invite', [CompanyController::class, 'viewInvite'])->name('view-invite');
+        Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+        Route::get('/admin/users/invite', [CompanyController::class, 'viewInvite'])->name('admin.view-invite');
 
-        Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('user-edit');
+        Route::get('/admin/user/edit/{user}', [UserController::class, 'viewEdit'])->name('admin.user-edit');
         Route::put('/admin/user/edit/{user}', [UserController::class, 'edit']);
     });
 });
@@ -51,10 +50,10 @@ Route::middleware(['auth', 'verified', 'no-role'])->group(function () {
     Route::get('/choose/user', [UserController::class, 'chooseUser'])->name('user.choose');
     Route::post('/choose/user/register', [UserController::class, 'completeRegistration']);
 
-    Route::get('/choose/company', fn() => view('pages.public.company-choose'))->name('choose');
+    Route::get('/choose/company', fn() => view('pages.public.company-choose'))->name('company.choose');
     Route::get('/choose/company/create', [CompanyController::class, 'createCompany'])->name('company.create');
     Route::get('/choose/company/join', [CompanyController::class, 'viewCompanyJoin'])->name('company.join');
-    Route::post('/choose/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
+    Route::post('/choose/company/join', [CompanyController::class, 'joinCompany']);
     Route::post('/choose/company/create', [CompanyController::class, 'registerCompany']);
 
 });

@@ -42,16 +42,16 @@
         @hasanyrole('company_user|company_admin')
             <!-- Navigation links -->
             <nav class="flex items-center gap-9">
-                <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('admin.dashboard') }}">Dashboard</a>
                 <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
-                <a class="text-sm font-medium text-stone-900" href="{{ route('users') }}">Users</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('admin.users') }}">Users</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('profile.edit') }}">My Profile</a>
             </nav>
 
             <!-- Buttons -->
             <div class="flex gap-2">
-                <a href="{{ route('product-create') }}">
+                <a href="{{ route('admin.product-create') }}">
                     <button class="h-10 min-w-[84px] rounded-xl bg-orange-500 px-4 text-sm font-bold text-white">
                         <span class="truncate">Create</span>
                     </button>
