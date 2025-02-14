@@ -44,7 +44,7 @@
             <nav class="flex items-center gap-9">
                 <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
                 <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
-                <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('admin.products') }}">Products</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('admin.users') }}">Users</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('profile.edit') }}">My Profile</a>
             </nav>
