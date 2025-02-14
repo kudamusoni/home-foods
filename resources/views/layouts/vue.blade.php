@@ -42,7 +42,7 @@
         @hasanyrole('company_user|company_admin')
             <!-- Navigation links -->
             <nav class="flex items-center gap-9">
-                <a class="text-sm font-medium text-stone-900" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="text-sm font-medium text-stone-900" href="{{ route('dashboard') }}">Dashboard</a>
                 <a class="text-sm font-medium text-stone-900" href="#">Orders</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('products') }}">Products</a>
                 <a class="text-sm font-medium text-stone-900" href="{{ route('admin.users') }}">Users</a>
